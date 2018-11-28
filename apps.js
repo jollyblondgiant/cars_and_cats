@@ -20,6 +20,7 @@ var server = http.createServer(function (request, response) {
             response.end();
         });
     }
+  
     else if(request.url === '/cars'){
         fs.readFile('views/cars.html', 'utf8', function(errors, contents){
             response.writeHead(200, {'Content-Type': 'text/html'});
@@ -41,13 +42,17 @@ var server = http.createServer(function (request, response) {
             response.end();
         });
     }
-    else if(request.url === '/stylesheets/style.css'){
-        fs.readFile('./stylesheets/style.css', 'utf8', function(errors, contents){
-         response.writeHead(200, {'Content-type': 'text/css'});
-         response.write(contents);
-         response.end();
-        })
-      }
+    
+    else if(urlArr[urlArr.length-1] === 'css'){
+    let filePath = '.';
+    filePath += request.url;
+    fs.readFile(filePath, 'utf8', function(errors, contents){
+        response.writeHead(200, {'Content-type': 'text/css'});
+        response.write(contents);
+        response.end();
+    })
+    }
+    
     else if(urlArr[urlArr.length-1] === 'jpg'){
         let filePath = '.';
         filePath += request.url;
