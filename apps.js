@@ -1,7 +1,18 @@
 var http = require('http');
 var fs = require('fs');
+function getStrArr(str){
+    let strArr = str.split('/');
+    let temp = strArr[strArr.length-1].split('.');
+    strArr.pop();
+    strArr = strArr.concat(temp);
+    return strArr;
+}
+
+
 var server = http.createServer(function (request, response) {
     console.log('client request URL:', request.url);
+    var urlArr = getStrArr(request.url);
+    
     if(request.url =='/'){
         fs.readFile('views/index.html', 'utf8', function(errors, contents){
             response.writeHead(200, {'Content-Type': 'text/html'});
@@ -37,70 +48,17 @@ var server = http.createServer(function (request, response) {
          response.end();
         })
       }
-    else if(request.url === '/images/car1.jpg'){
-        
-        fs.readFile('./images/car1.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/car2.jpg'){
-        
-        fs.readFile('./images/car2.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/car3.jpg'){
-        
-        fs.readFile('./images/car3.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/car4.jpg'){
-        
-        fs.readFile('./images/car4.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/cat1.jpg'){
-        
-        fs.readFile('./images/cat1.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/cat2.jpg'){
-        
-        fs.readFile('./images/cat2.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/cat3.jpg'){
-        
-        fs.readFile('./images/cat3.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
-      else if(request.url === '/images/cat4.jpg'){
-        
-        fs.readFile('./images/cat4.jpg', function(errors, contents){
-            response.writeHead(200, {'Content-type': 'image/jpg'});
-            response.write(contents);
-            response.end();
-        })
-      }
+    else if(urlArr[urlArr.length-1] === 'jpg'){
+        let filePath = '.';
+        filePath += request.url;
+        console.log(filePath);
+    fs.readFile(filePath, function(errors, contents){
+        response.writeHead(200, {'Content-type': 'image/jpg'});
+        response.write(contents);
+        response.end();
+    })
+    }
+   
 
 
 
